@@ -17,7 +17,7 @@ from rich.progress import (
 from rich.table import Table
 
 from portscout.core.console import console
-from portscout.core.output import to_json
+from portscout.core.output import to_json, write_json
 from portscout.scanner import (
     TCPScanner,
     get_common_ports,
@@ -53,6 +53,12 @@ def scan(
         False,
         "--json",
         help="Output results as JSON.",
+    ),
+    output: str | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Save results to JSON file.",
     ),
 ) -> None:
     """
@@ -123,6 +129,16 @@ def scan(
         key=lambda item: item.port,
     )
 
+    if output:
+        write_json(
+            results,
+            output,
+        )
+
+        console.print(
+            f"[green]Saved JSON output:[/green] {output}"
+        )
+
     if json_output:
         console.print(
             to_json(results)
@@ -147,22 +163,10 @@ def scan(
         title="Scan Results",
     )
 
-    table.add_column(
-        "PORT",
-        style="cyan",
-    )
-
-    table.add_column(
-        "STATUS",
-    )
-
-    table.add_column(
-        "SERVICE",
-    )
-
-    table.add_column(
-        "RESPONSE",
-    )
+    table.add_column("PORT")
+    table.add_column("STATUS")
+    table.add_column("SERVICE")
+    table.add_column("RESPONSE")
 
     for result in results:
         table.add_row(
