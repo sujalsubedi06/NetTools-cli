@@ -1,0 +1,93 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "portscout"
+version = "1.0.0"
+description = "A modern Python network reconnaissance toolkit."
+readme = "README.md"
+requires-python = ">=3.13"
+license = "MIT"
+
+authors = [
+    { name = "Sujal Subedi", email = "sujalsubedi06@gmail.com" }
+]
+
+keywords = [
+    "network",
+    "scanner",
+    "ports",
+    "dns",
+    "diagnostics",
+    "cli",
+    "reconnaissance",
+    "python"
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet",
+    "Topic :: System :: Networking",
+    "Typing :: Typed"
+]
+
+dependencies = [
+    "typer>=0.16.0",
+    "rich>=14.0.0",
+    "requests>=2.32.0",
+    "dnspython>=2.7.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-cov>=7.0.0",
+    "ruff>=0.12.8",
+    "mypy>=1.17.1",
+    "pre-commit>=4.3.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/sujalsubedi06/PortScout"
+Repository = "https://github.com/sujalsubedi06/PortScout"
+Issues = "https://github.com/sujalsubedi06/PortScout/issues"
+
+[project.scripts]
+portscout = "portscout.cli.app:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/portscout"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "UP",
+    "B"
+]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+warn_unused_configs = true
+warn_return_any = true
+warn_unused_ignores = true
