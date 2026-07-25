@@ -29,7 +29,7 @@ def report(
     ),
 ) -> None:
     """
-    Generate an HTML security report.
+    Generate an HTML assessment report.
     """
 
     generator = ReportGenerator()
