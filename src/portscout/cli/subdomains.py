@@ -10,6 +10,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from portscout.core.output import to_json
 from portscout.subdomains import SubdomainEnumerator
 
 
@@ -23,6 +24,11 @@ def subdomains(
         "--wordlist",
         "-w",
         help="Custom subdomain wordlist.",
+    ),
+    json_output: bool = typer.Option(
+        False,
+        "--json",
+        help="Output results as JSON.",
     ),
 ) -> None:
     """
@@ -40,6 +46,12 @@ def subdomains(
     results = enumerator.enumerate(
         domain,
     )
+
+    if json_output:
+        console.print(
+            to_json(results)
+        )
+        raise typer.Exit()
 
     if not results:
         console.print(
