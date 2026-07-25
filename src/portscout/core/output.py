@@ -10,6 +10,9 @@ from pathlib import Path
 from typing import Any
 
 
+BASE_OUTPUT_DIR = Path("output")
+
+
 def serialize(data: Any) -> Any:
     """
     Convert objects into JSON-compatible data.
@@ -51,14 +54,26 @@ def to_json(data: Any) -> str:
 def write_json(
     data: Any,
     output: str | Path,
-) -> None:
+) -> Path:
     """
-    Write JSON data to file.
+    Write JSON data into output directory.
     """
 
-    path = Path(output)
+    output_path = Path(output)
+
+    path = (
+        BASE_OUTPUT_DIR
+        / output_path
+    )
+
+    path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
 
     path.write_text(
         to_json(data),
         encoding="utf-8",
     )
+
+    return path
