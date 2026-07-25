@@ -130,13 +130,13 @@ def scan(
     )
 
     if output:
-        write_json(
+        saved_path = write_json(
             results,
             output,
         )
 
         console.print(
-            f"[green]Saved JSON output:[/green] {output}"
+            f"[green]Saved JSON output:[/green] {saved_path}"
         )
 
     if json_output:

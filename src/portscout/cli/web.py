@@ -6,7 +6,10 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from portscout.core.output import to_json
+from portscout.core.output import (
+    to_json,
+    write_json,
+)
 from portscout.web import WebClient, analyze_security
 
 
@@ -21,6 +24,12 @@ def inspect(
         False,
         "--json",
         help="Output results as JSON.",
+    ),
+    output: str | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Save results as JSON file.",
     ),
 ) -> None:
     """
@@ -43,9 +52,29 @@ def inspect(
         )
         raise typer.Exit(1)
 
+    report = analyze_security(
+        result.url,
+        result.security_headers,
+    )
+
+    data = {
+        "web_info": result,
+        "security": report,
+    }
+
+    if output:
+        saved_path = write_json(
+            data,
+            output,
+        )
+
+        console.print(
+            f"[green]Saved JSON output:[/green] {saved_path}"
+        )
+
     if json_output:
         console.print(
-            to_json(result)
+            to_json(data)
         )
         raise typer.Exit()
 
@@ -81,11 +110,6 @@ def inspect(
         )
 
     console.print(table)
-
-    report = analyze_security(
-        result.url,
-        result.security_headers,
-    )
 
     security = Table(
         title="Security Analysis"
