@@ -6,6 +6,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from portscout.core.output import to_json
 from portscout.web import WebClient, analyze_security
 
 
@@ -16,6 +17,11 @@ console = Console()
 @app.command()
 def inspect(
     target: str,
+    json_output: bool = typer.Option(
+        False,
+        "--json",
+        help="Output results as JSON.",
+    ),
 ) -> None:
     """
     Inspect a website.
@@ -36,6 +42,12 @@ def inspect(
             "[red]Unable to fetch target[/red]"
         )
         raise typer.Exit(1)
+
+    if json_output:
+        console.print(
+            to_json(result)
+        )
+        raise typer.Exit()
 
     table = Table(
         title=f"Web Info: {target}"
