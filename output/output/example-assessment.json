@@ -1,0 +1,79 @@
+{
+    "target": "example.com",
+    "dns": [
+        {
+            "record_type": "A",
+            "value": "172.66.147.243",
+            "ttl": 262
+        },
+        {
+            "record_type": "A",
+            "value": "104.20.23.154",
+            "ttl": 262
+        },
+        {
+            "record_type": "AAAA",
+            "value": "2606:4700:10::ac42:93f3",
+            "ttl": 82
+        },
+        {
+            "record_type": "AAAA",
+            "value": "2606:4700:10::6814:179a",
+            "ttl": 82
+        },
+        {
+            "record_type": "MX",
+            "value": "0 .",
+            "ttl": 292
+        },
+        {
+            "record_type": "TXT",
+            "value": "\"_k2n1y4vw3qtb4skdx9e7dxt97qrmmq9\"",
+            "ttl": 292
+        },
+        {
+            "record_type": "TXT",
+            "value": "\"v=spf1 -all\"",
+            "ttl": 292
+        },
+        {
+            "record_type": "NS",
+            "value": "hera.ns.cloudflare.com.",
+            "ttl": 5138
+        },
+        {
+            "record_type": "NS",
+            "value": "elliott.ns.cloudflare.com.",
+            "ttl": 5138
+        }
+    ],
+    "subdomains": [
+        {
+            "subdomain": "www.example.com",
+            "resolved": true,
+            "address": "104.20.23.154"
+        }
+    ],
+    "web": {
+        "url": "https://example.com/",
+        "status_code": 200,
+        "response_time": 0.05035100000168313,
+        "server": "cloudflare",
+        "content_type": "text/html",
+        "title": "Example Domain",
+        "https": true,
+        "redirects": 0,
+        "security_headers": {}
+    },
+    "security": {
+        "https": true,
+        "missing_headers": [
+            "HSTS",
+            "CSP",
+            "Clickjacking Protection",
+            "MIME Protection",
+            "Referrer Policy"
+        ],
+        "score": 25
+    }
+}
