@@ -1,18 +1,20 @@
 """
-Security report generator.
+Technical assessment report generator.
 """
 
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from pathlib import Path
 
+from portscout import __version__
 from portscout.report.models import SecurityReport
 
 
 class ReportGenerator:
     """
-    Generate security reports from JSON data.
+    Generate professional HTML reports.
     """
 
     def load_json(
@@ -20,13 +22,28 @@ class ReportGenerator:
         path: str | Path,
     ) -> dict:
         """
-        Load JSON report data.
+        Load JSON data.
         """
 
         return json.loads(
             Path(path).read_text(
                 encoding="utf-8",
             )
+        )
+
+    def load_template(self) -> str:
+        """
+        Load HTML template.
+        """
+
+        template = (
+            Path(__file__).parent
+            / "templates"
+            / "report.html"
+        )
+
+        return template.read_text(
+            encoding="utf-8",
         )
 
     def generate(
@@ -70,49 +87,113 @@ class ReportGenerator:
         report: SecurityReport,
     ) -> str:
         """
-        Render HTML report.
+        Render HTML from template.
         """
 
-        return f"""
-<!DOCTYPE html>
-<html>
-<head>
-<title>PortScout Security Report</title>
-<style>
-body {{
-    font-family: Arial, sans-serif;
-    margin: 40px;
-}}
+        template = self.load_template()
 
-h1 {{
-    color: #00aaff;
-}}
+        data = report.sections
 
-pre {{
-    background: #111;
-    color: #eee;
-    padding: 20px;
-    border-radius: 8px;
-}}
-</style>
-</head>
+        web = data.get(
+            "web_info",
+            {},
+        )
 
-<body>
+        security = data.get(
+            "security",
+            {},
+        )
 
-<h1>PortScout Security Report</h1>
+        web_rows = ""
 
-<h2>Target</h2>
-<p>{report.target}</p>
+        fields = {
+            "URL": web.get("url"),
+            "Status": web.get("status_code"),
+            "Title": web.get("title"),
+            "Server": web.get("server"),
+            "Content Type": web.get("content_type"),
+            "HTTPS": web.get("https"),
+            "Redirects": web.get("redirects"),
+            "Response Time": web.get("response_time"),
+        }
 
-<h2>Data</h2>
-
-<pre>
-{json.dumps(
-    report.sections,
-    indent=4
-)}
-</pre>
-
-</body>
-</html>
+        for key, value in fields.items():
+            web_rows += f"""
+<tr>
+<td>{key}</td>
+<td>{value}</td>
+</tr>
 """
+
+        missing_headers = security.get(
+            "missing_headers",
+            [],
+        )
+
+        findings = ""
+
+        if missing_headers:
+            for item in missing_headers:
+                findings += f"""
+<li>{item}</li>
+"""
+        else:
+            findings = """
+<li>No configuration issues detected.</li>
+"""
+
+        html = template.replace(
+            "{{ target }}",
+            str(web.get("url", report.target)),
+        )
+
+        html = html.replace(
+            "{{ generated_at }}",
+            datetime.now().strftime(
+                "%Y-%m-%d %H:%M:%S",
+            ),
+        )
+
+        html = html.replace(
+            "{{ version }}",
+            __version__,
+        )
+
+        html = html.replace(
+            "{{ web_rows }}",
+            web_rows,
+        )
+
+        html = html.replace(
+            "{{ security_score }}",
+            str(
+                security.get(
+                    "score",
+                    "N/A",
+                )
+            ),
+        )
+
+        html = html.replace(
+            "{{ https_status }}",
+            (
+                "Enabled"
+                if security.get("https")
+                else "Disabled"
+            ),
+        )
+
+        html = html.replace(
+            "{{ findings }}",
+            findings,
+        )
+
+        html = html.replace(
+            "{{ raw_data }}",
+            json.dumps(
+                data,
+                indent=4,
+            ),
+        )
+
+        return html
