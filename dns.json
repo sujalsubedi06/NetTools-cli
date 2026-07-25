@@ -1,0 +1,47 @@
+[
+    {
+        "record_type": "A",
+        "value": "104.20.23.154",
+        "ttl": 226
+    },
+    {
+        "record_type": "A",
+        "value": "172.66.147.243",
+        "ttl": 226
+    },
+    {
+        "record_type": "AAAA",
+        "value": "2606:4700:10::6814:179a",
+        "ttl": 37
+    },
+    {
+        "record_type": "AAAA",
+        "value": "2606:4700:10::ac42:93f3",
+        "ttl": 37
+    },
+    {
+        "record_type": "MX",
+        "value": "0 .",
+        "ttl": 286
+    },
+    {
+        "record_type": "TXT",
+        "value": "\"v=spf1 -all\"",
+        "ttl": 286
+    },
+    {
+        "record_type": "TXT",
+        "value": "\"_k2n1y4vw3qtb4skdx9e7dxt97qrmmq9\"",
+        "ttl": 286
+    },
+    {
+        "record_type": "NS",
+        "value": "hera.ns.cloudflare.com.",
+        "ttl": 6755
+    },
+    {
+        "record_type": "NS",
+        "value": "elliott.ns.cloudflare.com.",
+        "ttl": 6755
+    }
+]
