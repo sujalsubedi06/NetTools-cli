@@ -5,7 +5,7 @@ Tests for subdomain enumeration.
 from pathlib import Path
 from unittest.mock import patch
 
-from portscout.subdomains import (
+from nettools.subdomains import (
     SubdomainEnumerator,
 )
 

@@ -1,26 +1,26 @@
-# PortScout
+# nettools
 
 **A modern Python network reconnaissance toolkit.**
 
 [![Python Version](https://img.shields.io/badge/python-3.13%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Package Status](https://img.shields.io/badge/status-active-brightgreen.svg)](https://github.com/your-org/PortScout)
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](https://github.com/your-org/PortScout/actions)
+[![Package Status](https://img.shields.io/badge/status-active-brightgreen.svg)](https://github.com/your-org/nettools)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](https://github.com/your-org/nettools/actions)
 
 ---
 
 ## Overview
 
-PortScout is a modular Python command-line toolkit for **authorized** network diagnostics and service discovery. It brings together several common reconnaissance workflows — port scanning, DNS analysis, subdomain enumeration, web inspection, and assessment reporting — into a single, consistent CLI built on top of [Typer](https://typer.tiangolo.com/) and [Rich](https://rich.readthedocs.io/).
+nettools is a modular Python command-line toolkit for **authorized** network diagnostics and service discovery. It brings together several common reconnaissance workflows — port scanning, DNS analysis, subdomain enumeration, web inspection, and assessment reporting — into a single, consistent CLI built on top of [Typer](https://typer.tiangolo.com/) and [Rich](https://rich.readthedocs.io/).
 
-PortScout is intended for:
+nettools is intended for:
 
 - **Security teams and penetration testers** performing authorized assessments
 - **System administrators** auditing infrastructure they manage
 - **DevOps and network engineers** diagnosing connectivity and DNS issues
 - **Students and researchers** learning about network diagnostics in a controlled, ethical context
 
-PortScout is not a hacking tool, and it is not designed to bypass authorization, evade detection, or exploit vulnerabilities. It is a diagnostics and reporting utility intended to help authorized users understand the state of systems they are responsible for or have explicit permission to test.
+nettools is not a hacking tool, and it is not designed to bypass authorization, evade detection, or exploit vulnerabilities. It is a diagnostics and reporting utility intended to help authorized users understand the state of systems they are responsible for or have explicit permission to test.
 
 ---
 
@@ -39,12 +39,12 @@ PortScout is not a hacking tool, and it is not designed to bypass authorization,
 
 ## Architecture
 
-PortScout follows a `src`-based package layout, keeping the installable package isolated from project tooling and tests.
+nettools follows a `src`-based package layout, keeping the installable package isolated from project tooling and tests.
 
 ```
-PortScout/
+nettools/
 ├── src/
-│   └── portscout/
+│   └── nettools/
 │       ├── __init__.py
 │       ├── cli.py              # Typer application entry point
 │       ├── commands/           # One module per CLI subcommand
@@ -76,18 +76,18 @@ Each command module is responsible for a single capability and exposes a clear, 
 ### From PyPI
 
 ```bash
-pip install portscout
+pip install nettools
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/your-org/PortScout.git
-cd PortScout
+git clone https://github.com/your-org/nettools.git
+cd nettools
 pip install -e .
 ```
 
-PortScout requires **Python 3.13 or later**.
+nettools requires **Python 3.13 or later**.
 
 ---
 
@@ -96,55 +96,55 @@ PortScout requires **Python 3.13 or later**.
 View all available commands:
 
 ```bash
-portscout --help
+nettools --help
 ```
 
 Scan common TCP ports on a target:
 
 ```bash
-portscout scan example.com
+nettools scan example.com
 ```
 
 Perform DNS lookups:
 
 ```bash
-portscout dns example.com
+nettools dns example.com
 ```
 
 Run a full assessment (scan, DNS, subdomains, and web inspection together):
 
 ```bash
-portscout assess example.com
+nettools assess example.com
 ```
 
 Generate an HTML report from previous results:
 
 ```bash
-portscout report
+nettools report
 ```
 
 Other available commands:
 
 ```bash
-portscout subdomains example.com
-portscout web example.com
-portscout version
+nettools subdomains example.com
+nettools web example.com
+nettools version
 ```
 
 Most commands support a `--json` flag for machine-readable output, suitable for scripting or integration with other tools:
 
 ```bash
-portscout scan example.com --json
+nettools scan example.com --json
 ```
 
 ---
 
 ## Configuration
 
-PortScout can be configured via a project-level configuration file, environment variables, or command-line flags, in increasing order of precedence.
+nettools can be configured via a project-level configuration file, environment variables, or command-line flags, in increasing order of precedence.
 
-- **Configuration file**: `portscout.toml` in the current working directory, or a path passed via `--config`
-- **Environment variables**: prefixed with `PORTSCOUT_` (e.g. `PORTSCOUT_TIMEOUT`, `PORTSCOUT_MAX_WORKERS`)
+- **Configuration file**: `nettools.toml` in the current working directory, or a path passed via `--config`
+- **Environment variables**: prefixed with `nettools_` (e.g. `nettools_TIMEOUT`, `nettools_MAX_WORKERS`)
 - **CLI flags**: passed directly to individual commands (e.g. `--timeout`, `--ports`, `--output`)
 
 Common configurable options include:
@@ -154,10 +154,10 @@ Common configurable options include:
 | `timeout` | Per-connection timeout in seconds | `3` |
 | `max_workers` | Concurrent worker threads/processes | `50` |
 | `ports` | Port range or list to scan | Common ports (top 1000) |
-| `output_dir` | Directory for reports and JSON output | `./portscout-output` |
+| `output_dir` | Directory for reports and JSON output | `./nettools-output` |
 | `wordlist` | Wordlist path for subdomain enumeration | Bundled default wordlist |
 
-Refer to `portscout <command> --help` for the full set of options available on each command.
+Refer to `nettools <command> --help` for the full set of options available on each command.
 
 ---
 
@@ -190,7 +190,7 @@ mypy
 
 ## Testing
 
-PortScout uses [pytest](https://docs.pytest.org/) for automated testing, with unit tests covering individual modules and integration tests covering end-to-end CLI behavior against controlled, local test fixtures. Networking calls in tests are mocked or run against local/loopback targets to keep the suite deterministic and safe to run in CI.
+nettools uses [pytest](https://docs.pytest.org/) for automated testing, with unit tests covering individual modules and integration tests covering end-to-end CLI behavior against controlled, local test fixtures. Networking calls in tests are mocked or run against local/loopback targets to keep the suite deterministic and safe to run in CI.
 
 To run the full suite with verbose output:
 
@@ -231,23 +231,23 @@ Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for gu
 
 ## Security
 
-If you discover a security vulnerability in PortScout itself, please **do not open a public issue**. Instead, follow the responsible disclosure process described in [SECURITY.md](SECURITY.md).
+If you discover a security vulnerability in nettools itself, please **do not open a public issue**. Instead, follow the responsible disclosure process described in [SECURITY.md](SECURITY.md).
 
 ---
 
 ## License
 
-PortScout is released under the [MIT License](LICENSE).
+nettools is released under the [MIT License](LICENSE).
 
 ---
 
 ## Responsible Usage
 
-PortScout is a diagnostic and reporting tool intended strictly for **authorized** use.
+nettools is a diagnostic and reporting tool intended strictly for **authorized** use.
 
-- Only use PortScout against systems, networks, and domains that you own, or for which you have explicit, documented permission to test.
-- PortScout is intended for **authorized diagnostics, auditing, and educational purposes only**.
+- Only use nettools against systems, networks, and domains that you own, or for which you have explicit, documented permission to test.
+- nettools is intended for **authorized diagnostics, auditing, and educational purposes only**.
 - Unauthorized scanning, enumeration, or assessment of systems you do not own or have permission to test may violate laws and regulations in your jurisdiction, as well as the terms of service of the target system's provider.
-- Users are solely responsible for ensuring their use of PortScout complies with all applicable laws and any agreements governing the systems being tested.
+- Users are solely responsible for ensuring their use of nettools complies with all applicable laws and any agreements governing the systems being tested.
 
-The maintainers of PortScout assume no liability for misuse of this software.
+The maintainers of nettools assume no liability for misuse of this software.

@@ -4,7 +4,7 @@ Tests for web client.
 
 from unittest.mock import patch, Mock
 
-from portscout.web import WebClient
+from nettools.web import WebClient
 
 
 def test_web_fetch_success() -> None:
@@ -28,9 +28,7 @@ def test_web_fetch_success() -> None:
         "requests.get",
         return_value=mock_response,
     ):
-        result = client.fetch(
-            "https://example.com"
-        )
+        result = client.fetch("https://example.com")
 
     assert result is not None
     assert result.status_code == 200
@@ -49,8 +47,6 @@ def test_web_fetch_failure() -> None:
         "requests.get",
         side_effect=Exception,
     ):
-        result = client.fetch(
-            "https://invalid.example"
-        )
+        result = client.fetch("https://invalid.example")
 
     assert result is None

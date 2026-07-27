@@ -1,8 +1,8 @@
-# Contributing to PortScout
+# Contributing to nettools
 
-Thank you for your interest in contributing to **PortScout** — a modern Python network reconnaissance toolkit for authorized network diagnostics, service discovery, DNS analysis, and web asset inspection.
+Thank you for your interest in contributing to **nettools** — a modern Python network reconnaissance toolkit for authorized network diagnostics, service discovery, DNS analysis, and web asset inspection.
 
-PortScout is built for security professionals, network administrators, and engineers who need reliable, well-tested tooling for diagnosing and understanding networks they own or are explicitly authorized to assess. This document explains how to get involved, set up your development environment, and submit high-quality contributions.
+nettools is built for security professionals, network administrators, and engineers who need reliable, well-tested tooling for diagnosing and understanding networks they own or are explicitly authorized to assess. This document explains how to get involved, set up your development environment, and submit high-quality contributions.
 
 We welcome contributions of all sizes, from fixing a typo in the documentation to implementing a new scanning module. Please take a moment to read through this guide before opening an issue or pull request.
 
@@ -10,15 +10,15 @@ We welcome contributions of all sizes, from fixing a typo in the documentation t
 
 ## 1. Introduction
 
-PortScout follows standard open-source contribution practices. Whether you're fixing a bug, improving documentation, adding tests, or proposing a new feature, this guide will help you contribute effectively and in a way that aligns with the project's goals and quality standards.
+nettools follows standard open-source contribution practices. Whether you're fixing a bug, improving documentation, adding tests, or proposing a new feature, this guide will help you contribute effectively and in a way that aligns with the project's goals and quality standards.
 
-By participating in this project, you agree to abide by our [Code of Conduct](#15-code-of-conduct) and to use PortScout — and any code you contribute to it — strictly for **authorized, legal, and ethical purposes**.
+By participating in this project, you agree to abide by our [Code of Conduct](#15-code-of-conduct) and to use nettools — and any code you contribute to it — strictly for **authorized, legal, and ethical purposes**.
 
 ---
 
 ## 2. Ways to Contribute
 
-There are many ways to contribute to PortScout, including:
+There are many ways to contribute to nettools, including:
 
 - **Bug reports** — Identifying and reporting issues with clear reproduction steps.
 - **Bug fixes** — Submitting pull requests that resolve open issues.
@@ -35,7 +35,7 @@ If you're unsure whether a contribution is a good fit, feel free to open an issu
 
 ## 3. Development Environment Setup
 
-PortScout requires:
+nettools requires:
 
 - **Python 3.13+**
 - **pip** (latest version recommended)
@@ -50,14 +50,14 @@ The project uses a `src`-layout modular package structure and **Hatchling** as i
 Fork the repository on GitHub, then clone your fork locally:
 
 ```bash
-git clone https://github.com/<your-username>/portscout.git
-cd portscout
+git clone https://github.com/<your-username>/nettools.git
+cd nettools
 ```
 
 If you plan to contribute regularly, add the upstream repository as a remote so you can keep your fork in sync:
 
 ```bash
-git remote add upstream https://github.com/<original-org>/portscout.git
+git remote add upstream https://github.com/<original-org>/nettools.git
 git fetch upstream
 ```
 
@@ -83,19 +83,19 @@ python -m pip install --upgrade pip
 
 ## 6. Installing Development Dependencies
 
-PortScout uses extras defined in `pyproject.toml` to manage development tooling. Install the project in editable mode along with development dependencies:
+nettools uses extras defined in `pyproject.toml` to manage development tooling. Install the project in editable mode along with development dependencies:
 
 ```bash
 pip install -e ".[dev]"
 ```
 
-This installs PortScout itself (editable, so your changes take effect immediately), along with tools such as `pytest`, `ruff`, and `mypy`.
+This installs nettools itself (editable, so your changes take effect immediately), along with tools such as `pytest`, `ruff`, and `mypy`.
 
 ---
 
 ## 7. Running Tests
 
-PortScout uses **pytest** for its test suite. All new features and bug fixes should include appropriate test coverage.
+nettools uses **pytest** for its test suite. All new features and bug fixes should include appropriate test coverage.
 
 Run the full test suite with verbose output:
 
@@ -113,7 +113,7 @@ Before submitting a pull request, please ensure:
 
 ## 8. Code Formatting and Linting
 
-PortScout uses **ruff** for both linting and formatting to maintain a consistent, clean codebase.
+nettools uses **ruff** for both linting and formatting to maintain a consistent, clean codebase.
 
 Check for lint issues:
 
@@ -133,7 +133,7 @@ Please run both commands before committing. Pull requests with unresolved lint e
 
 ## 9. Type Checking
 
-PortScout maintains type-annotated code and uses **mypy** for static type checking.
+nettools maintains type-annotated code and uses **mypy** for static type checking.
 
 ```bash
 mypy
@@ -162,7 +162,7 @@ Branch off the latest `main` and keep branches focused on a single logical chang
 
 ## 11. Commit Message Conventions
 
-PortScout follows a lightweight [Conventional Commits](https://www.conventionalcommits.org/) style:
+nettools follows a lightweight [Conventional Commits](https://www.conventionalcommits.org/) style:
 
 ```
 <type>(<scope>): <short summary>
@@ -222,7 +222,7 @@ Maintainers may request changes, ask clarifying questions, or suggest alternativ
 
 When reporting a bug, please include:
 
-- **PortScout version** (`portscout --version`)
+- **nettools version** (`nettools --version`)
 - **Python version** and operating system
 - **Steps to reproduce** the issue
 - **Expected behavior** vs. **actual behavior**
@@ -240,15 +240,15 @@ Please search existing issues before opening a new one to avoid duplicates.
 
 ## 14. Security and Responsible Usage Guidelines
 
-PortScout is designed **exclusively for authorized network diagnostics** — including but not limited to authorized penetration testing engagements, internal infrastructure audits, DNS troubleshooting, and asset inventory on networks and systems you own or have explicit, documented permission to test.
+nettools is designed **exclusively for authorized network diagnostics** — including but not limited to authorized penetration testing engagements, internal infrastructure audits, DNS troubleshooting, and asset inventory on networks and systems you own or have explicit, documented permission to test.
 
 **Contributors must adhere to the following principles:**
 
-- **No unauthorized scanning.** Do not use PortScout, or contribute features intended to facilitate use, against systems or networks without explicit authorization from their owner.
-- **No offensive tooling.** PortScout is a diagnostic and discovery toolkit, not an exploitation or attack framework. Contributions that add exploitation, credential brute-forcing, denial-of-service, or similarly offensive capabilities will not be accepted.
+- **No unauthorized scanning.** Do not use nettools, or contribute features intended to facilitate use, against systems or networks without explicit authorization from their owner.
+- **No offensive tooling.** nettools is a diagnostic and discovery toolkit, not an exploitation or attack framework. Contributions that add exploitation, credential brute-forcing, denial-of-service, or similarly offensive capabilities will not be accepted.
 - **Responsible defaults.** New scanning or discovery features should include sane rate limits, timeouts, and safeguards to minimize unintended impact on target systems.
-- **Vulnerability disclosure.** If you discover a security vulnerability in PortScout itself, please **do not** open a public issue. Instead, report it privately by emailing the maintainers (see `SECURITY.md` if present in the repository, or contact the maintainers directly). We will work with you to assess and address the issue promptly.
-- **Legal compliance.** Contributors are responsible for ensuring their use and testing of PortScout complies with all applicable laws and regulations in their jurisdiction.
+- **Vulnerability disclosure.** If you discover a security vulnerability in nettools itself, please **do not** open a public issue. Instead, report it privately by emailing the maintainers (see `SECURITY.md` if present in the repository, or contact the maintainers directly). We will work with you to assess and address the issue promptly.
+- **Legal compliance.** Contributors are responsible for ensuring their use and testing of nettools complies with all applicable laws and regulations in their jurisdiction.
 
 By contributing to this project, you affirm that your contributions are intended to support legitimate, authorized diagnostic use cases.
 
@@ -264,4 +264,4 @@ In short: be respectful, be constructive, and help us maintain a welcoming envir
 
 ## Questions?
 
-If you have questions that aren't covered here, feel free to open a [discussion](../../discussions) or an issue. Thank you for helping make PortScout better!
+If you have questions that aren't covered here, feel free to open a [discussion](../../discussions) or an issue. Thank you for helping make nettools better!
