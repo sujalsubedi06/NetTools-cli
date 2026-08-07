@@ -12,6 +12,7 @@ from portscout.scanner.utils import (
     parse_port_range,
     validate_port,
 )
+from portscout.scanner.validator import resolve_target
 
 __all__ = [
     "TCPScanner",
@@ -20,4 +21,5 @@ __all__ = [
     "get_common_ports",
     "parse_port_range",
     "validate_port",
+    "resolve_target",
 ]
