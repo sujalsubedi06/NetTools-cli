@@ -13,6 +13,7 @@ from portscout.cli.web import inspect
 from portscout.cli.subdomains import subdomains
 from portscout.core.console import console
 from portscout.cli.report import report
+from portscout.cli.assess import assess
 
 
 app = typer.Typer(
@@ -33,6 +34,8 @@ app.command(name="dns")(dns)
 app.command(name="subdomains")(subdomains)
 
 app.command(name="web")(inspect)
+
+app.command(name="assess")(assess)
 
 app.command(name="report")(report)
 
