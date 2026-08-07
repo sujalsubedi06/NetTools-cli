@@ -17,6 +17,7 @@ from rich.progress import (
 from rich.table import Table
 
 from portscout.core.console import console
+from portscout.core.output import to_json
 from portscout.scanner import (
     TCPScanner,
     get_common_ports,
@@ -48,6 +49,11 @@ def scan(
         "-w",
         help="Number of concurrent workers.",
     ),
+    json_output: bool = typer.Option(
+        False,
+        "--json",
+        help="Output results as JSON.",
+    ),
 ) -> None:
     """
     Scan TCP ports on a host.
@@ -74,20 +80,6 @@ def scan(
             f"[red]Target error:[/red] {exc}"
         )
         raise typer.Exit(code=1) from exc
-
-    console.print(
-        Panel(
-            f"""
-[cyan]Target:[/cyan] {target}
-[cyan]Resolved:[/cyan] {resolved_target}
-[cyan]Ports:[/cyan] {len(selected_ports)}
-[cyan]Workers:[/cyan] {workers}
-[cyan]Timeout:[/cyan] {timeout}s
-            """.strip(),
-            title="PortScout Scan",
-            border_style="cyan",
-        )
-    )
 
     scanner = TCPScanner(
         timeout=timeout,
@@ -129,6 +121,26 @@ def scan(
 
     results.sort(
         key=lambda item: item.port,
+    )
+
+    if json_output:
+        console.print(
+            to_json(results)
+        )
+        raise typer.Exit()
+
+    console.print(
+        Panel(
+            f"""
+[cyan]Target:[/cyan] {target}
+[cyan]Resolved:[/cyan] {resolved_target}
+[cyan]Ports:[/cyan] {len(selected_ports)}
+[cyan]Workers:[/cyan] {workers}
+[cyan]Timeout:[/cyan] {timeout}s
+            """.strip(),
+            title="PortScout Scan",
+            border_style="cyan",
+        )
     )
 
     table = Table(
