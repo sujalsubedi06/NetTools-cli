@@ -1,19 +1,27 @@
+```markdown
 # PortScout
 
 A modern Python infrastructure analysis toolkit for discovering, inspecting, and reporting on network services and web applications.
 
-PortScout combines network scanning, DNS intelligence, subdomain discovery, web inspection, and automated technical reports into a single command-line workflow.
-
-Built with Python, PortScout focuses on providing a clean, extensible, and developer-friendly approach to infrastructure visibility and technical assessment.
+![Python](https://img.shields.io/badge/python-3.13%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
 
 ---
 
-# Features
+## Overview
 
-## Network Analysis
+PortScout combines network scanning, DNS intelligence, subdomain discovery, web inspection, and automated technical reporting into a single command-line workflow.
 
-PortScout provides TCP-based network inspection capabilities:
+Infrastructure assessments typically require juggling several disconnected tools — a port scanner, a DNS lookup utility, a subdomain enumerator, and a separate script to inspect HTTP responses — then manually assembling the results into something readable. PortScout consolidates these steps into one consistent CLI with a shared output format, so a full assessment of a target domain can be run and reported on without switching tools.
 
+It is built for developers, system administrators, and technical users who need a fast, scriptable way to inspect a domain's network and web footprint and produce shareable JSON or HTML output.
+
+---
+
+## Features
+
+### Network Analysis
 - TCP port scanning
 - Service identification
 - Custom port selection
@@ -21,79 +29,20 @@ PortScout provides TCP-based network inspection capabilities:
 - Connection timing analysis
 - JSON export support
 
-Example:
-
-```bash
-portscout scan example.com
-```
-
----
-
-## DNS Intelligence
-
-Analyze domain DNS infrastructure:
-
-Supported operations:
-
-- DNS record lookup
+### DNS Intelligence
+- DNS record lookup (A, AAAA, MX, TXT, CNAME)
 - Reverse DNS lookup
 - Record inspection
 - Domain validation
 
-Supported record types:
-
-- A
-- AAAA
-- MX
-- TXT
-- CNAME
-
-Example:
-
-```bash
-portscout dns example.com
-```
-
-Reverse lookup:
-
-```bash
-portscout dns example.com --reverse 8.8.8.8
-```
-
----
-
-## Subdomain Discovery
-
-Discover related domain infrastructure:
-
-Features:
-
+### Subdomain Discovery
 - Subdomain enumeration
-- Custom wordlists
-- DNS resolution
+- Custom wordlist support
+- DNS resolution of discovered names
 - Discovery reporting
 - JSON export support
 
-Example:
-
-```bash
-portscout subdomains example.com
-```
-
-Custom wordlist:
-
-```bash
-portscout subdomains example.com --wordlist domains.txt
-```
-
----
-
-## Web Inspection
-
-Analyze web applications and services:
-
-Features:
-
+### Web Inspection
 - HTTP status analysis
 - Server identification
 - Content type detection
@@ -102,67 +51,177 @@ Features:
 - Configuration analysis
 - Security header inspection
 
-Example:
+### Assessment & Reporting
+- Combined multi-module assessment workflow (DNS → Subdomains → Web → Report)
+- Structured JSON data exports
+- Professional HTML assessment reports
+
+---
+
+## Installation
+
+### Clone the repository
+
+```bash
+git clone https://github.com/sujalsubedi06/PortScout.git
+cd PortScout
+```
+
+### Create a virtual environment
+
+**Linux/macOS**
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+**Windows**
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+### Install the package
+
+```bash
+pip install -e .
+```
+
+Verify the installation:
+
+```bash
+portscout --version
+```
+
+```
+PortScout v1.0.0
+```
+
+---
+
+## Quick Start
+
+Run a full automated assessment against a target domain:
+
+```bash
+portscout assess example.com --output output/example-assessment.json
+```
+
+This runs DNS analysis, subdomain discovery, and web inspection in sequence, then writes a structured JSON assessment file containing the collected results.
+
+---
+
+## CLI Usage
+
+### `portscout scan`
+
+TCP port scanning against a target.
+
+```bash
+portscout scan example.com
+portscout scan example.com --ports 80,443,8080
+portscout scan example.com --timeout 5
+portscout scan example.com --output output/scan.json
+```
+
+### `portscout dns`
+
+DNS record lookups and reverse lookups.
+
+```bash
+portscout dns example.com
+portscout dns example.com --reverse 8.8.8.8
+portscout dns example.com --output output/dns.json
+```
+
+### `portscout subdomains`
+
+Subdomain enumeration using a built-in or custom wordlist.
+
+```bash
+portscout subdomains example.com
+portscout subdomains example.com --wordlist wordlist.txt
+portscout subdomains example.com --output output/subdomains.json
+```
+
+### `portscout web`
+
+HTTP/HTTPS inspection of a target's web application.
 
 ```bash
 portscout web example.com
+portscout web example.com --output output/web.json
 ```
 
----
+### `portscout assess`
 
-## Automated Assessment
-
-Run multiple analysis modules together:
+Runs DNS, subdomain, and web modules together and produces a combined assessment.
 
 ```bash
 portscout assess example.com
-```
-
-Assessment workflow:
-
-```
-Target Domain
-
-      |
-      v
-
-DNS Analysis
-
-      |
-      v
-
-Subdomain Discovery
-
-      |
-      v
-
-Web Inspection
-
-      |
-      v
-
-Technical Assessment Report
-```
-
-Save assessment data:
-
-```bash
-portscout assess example.com \
---output output/example-assessment.json
+portscout assess example.com --output output/example-assessment.json
 ```
 
 ---
 
-# Reporting
+## Architecture
 
-PortScout generates structured technical reports.
+```
+PortScout
+├── CLI            Command interface (Typer-based)
+├── Scanner        TCP scanning engine
+├── DNS            DNS resolution engine
+├── Subdomains     Domain discovery engine
+├── Web            Application inspection
+├── Report         HTML report generation
+└── Core           Output handling, console utilities, shared components
+```
 
-Supported formats:
+Each module is independently invokable from the CLI, and the `assess` command orchestrates them into a single pipeline: **DNS Analysis → Subdomain Discovery → Web Inspection → Technical Assessment Report**.
 
-- JSON data exports
-- Professional HTML assessment reports
+---
 
-Reports include:
+## Project Structure
+
+```
+PortScout/
+├── src/
+│   └── portscout/
+│       ├── cli/            # Command interface (scan, dns, subdomains, web, assess)
+│       ├── core/           # Shared utilities and output handling
+│       ├── scanner/        # TCP scanning engine
+│       ├── dns/            # DNS resolution
+│       ├── subdomains/     # Subdomain enumeration
+│       ├── web/            # Web/HTTP inspection
+│       └── report/         # HTML report generation
+├── tests/                  # Test suite
+├── output/                 # Default location for JSON/HTML output
+├── pyproject.toml
+└── README.md
+```
+
+---
+
+## Output & Reports
+
+PortScout supports structured, machine-readable JSON exports and can generate human-readable technical reports from assessment data.
+
+**JSON output** — every module (`scan`, `dns`, `subdomains`, `web`, `assess`) supports `--output` to write results as JSON, suitable for further scripting or ingestion into other tools.
+
+**HTML reports** — the `report` module renders assessment data into a professional HTML report using the templates under `src/portscout/report/templates/`.
+
+Example output layout:
+
+```
+output/
+├── example-assessment.json
+└── reports/
+    └── assessment-report.html
+```
+
+A generated report typically includes:
 
 - Target information
 - DNS information
@@ -171,251 +230,9 @@ Reports include:
 - Technical findings
 - Raw collected data
 
-Example output:
-
-```
-output/
-
-├── example-assessment.json
-
-└── reports/
-
-    └── security-report.html
-```
-
 ---
 
-# Installation
-
-## Clone Repository
-
-```bash
-git clone https://github.com/sujalsubedi06/PortScout.git
-
-cd PortScout
-```
-
----
-
-## Create Virtual Environment
-
-Linux/macOS:
-
-```bash
-python -m venv .venv
-
-source .venv/bin/activate
-```
-
-Windows:
-
-```bash
-python -m venv .venv
-
-.venv\Scripts\activate
-```
-
----
-
-## Install Package
-
-Install PortScout:
-
-```bash
-pip install -e .
-```
-
----
-
-# Usage
-
-## Check Version
-
-```bash
-portscout --version
-```
-
-Example:
-
-```
-PortScout v1.0.0
-```
-
----
-
-# Command Reference
-
-## Scan
-
-Basic scan:
-
-```bash
-portscout scan example.com
-```
-
-Custom ports:
-
-```bash
-portscout scan example.com --ports 80,443,8080
-```
-
-Custom timeout:
-
-```bash
-portscout scan example.com --timeout 5
-```
-
-JSON output:
-
-```bash
-portscout scan example.com \
---output output/scan.json
-```
-
----
-
-## DNS
-
-Lookup DNS records:
-
-```bash
-portscout dns example.com
-```
-
-Save output:
-
-```bash
-portscout dns example.com \
---output output/dns.json
-```
-
----
-
-## Subdomains
-
-Enumerate subdomains:
-
-```bash
-portscout subdomains example.com
-```
-
-Custom wordlist:
-
-```bash
-portscout subdomains example.com \
---wordlist wordlist.txt
-```
-
-Save output:
-
-```bash
-portscout subdomains example.com \
---output output/subdomains.json
-```
-
----
-
-## Web
-
-Inspect website:
-
-```bash
-portscout web example.com
-```
-
-Save output:
-
-```bash
-portscout web example.com \
---output output/web.json
-```
-
----
-
-## Assessment
-
-Complete analysis:
-
-```bash
-portscout assess example.com
-```
-
-Save assessment:
-
-```bash
-portscout assess example.com \
---output output/example-assessment.json
-```
-
----
-
-# Architecture
-
-```
-PortScout
-
-├── CLI
-│   └── Command interface
-│
-├── Scanner
-│   └── TCP scanning engine
-│
-├── DNS
-│   └── DNS resolution engine
-│
-├── Subdomains
-│   └── Domain discovery engine
-│
-├── Web
-│   └── Application inspection
-│
-├── Reports
-│   └── HTML report generation
-│
-└── Core
-    ├── Output handling
-    ├── Console utilities
-    └── Shared components
-```
-
----
-
-# Project Structure
-
-```
-PortScout/
-
-├── src/
-
-│   └── portscout/
-
-│       ├── cli/
-
-│       ├── scanner/
-
-│       ├── dns/
-
-│       ├── subdomains/
-
-│       ├── web/
-
-│       ├── report/
-
-│       └── core/
-
-
-├── tests/
-
-├── output/
-
-├── pyproject.toml
-
-└── README.md
-```
-
----
-
-# Development
+## Development
 
 Install development dependencies:
 
@@ -423,31 +240,40 @@ Install development dependencies:
 pip install -e ".[dev]"
 ```
 
-Run test suite:
+Development dependencies include `pytest`, `pytest-cov`, `ruff`, `mypy`, and `pre-commit`.
+
+### Code quality tools
+
+Lint with Ruff:
+
+```bash
+ruff check .
+```
+
+Type-check with mypy (strict mode):
+
+```bash
+mypy src
+```
+
+### Running tests
 
 ```bash
 python -m pytest
 ```
 
-Expected:
-
-```
-All tests passed
-```
-
 ---
 
-# Testing
+## Testing
 
-PortScout includes automated tests covering:
+The test suite covers:
 
-- DNS resolution
-- DNS failures
+- DNS resolution and failure handling
 - Subdomain discovery
 - Web inspection
-- Error handling
+- General error handling across modules
 
-Run:
+Run the full suite with:
 
 ```bash
 python -m pytest
@@ -455,26 +281,21 @@ python -m pytest
 
 ---
 
-# Roadmap
+## Roadmap
 
-Future improvements:
-
-## v1.1
-
+### v1.1
 - PDF report export
 - Improved report themes
-- More DNS record support
+- Expanded DNS record support
 - Additional service detection
 
-## v1.2
-
+### v1.2
 - REST API
 - Database storage
 - Background assessments
-- Historical reports
+- Historical reports / dashboard
 
-## v2
-
+### v2.0
 - Plugin system
 - Distributed scanning
 - Advanced visualization
@@ -482,39 +303,37 @@ Future improvements:
 
 ---
 
-# Technology Stack
+## Contributing
 
-Built with:
+Contributions are welcome. Typical workflow:
 
-- Python
-- Typer
-- Rich
-- Requests
-- dnspython
-- Pytest
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Make your changes and add tests
+4. Run tests locally
+5. Open a pull request describing the change
 
 ---
 
-# Version
+## Technology Stack
 
-Current version:
+- Python 3.13+
+- [Typer](https://typer.tiangolo.com/) — CLI framework
+- [Rich](https://github.com/Textualize/rich) — terminal output
+- [Requests](https://requests.readthedocs.io/) — HTTP client
+- [dnspython](https://www.dnspython.org/) — DNS resolution
+- [Pytest](https://pytest.org/) — testing
 
+---
+
+## License
+
+Released under the [MIT License](LICENSE).
+
+---
+
+## Author
+
+**Sujal Subedi**
+GitHub: [github.com/sujalsubedi06](https://github.com/sujalsubedi06)
 ```
-1.0.0
-```
-
----
-
-# License
-
-MIT License
-
----
-
-# Author
-
-Sujal Subedi
-
-GitHub:
-
-https://github.com/sujalsubedi06
