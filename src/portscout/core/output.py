@@ -1,34 +1,64 @@
 """
-Output formatting helpers.
+Output formatting utilities.
 """
 
 from __future__ import annotations
 
 import json
-from dataclasses import asdict
+from dataclasses import asdict, is_dataclass
+from pathlib import Path
 from typing import Any
 
 
-def to_json(
-    data: Any,
-) -> str:
+def serialize(data: Any) -> Any:
     """
-    Convert data to JSON.
+    Convert objects into JSON-compatible data.
     """
 
-    if hasattr(data, "__dataclass_fields__"):
-        data = asdict(data)
+    if is_dataclass(data):
+        return asdict(data)
 
-    elif isinstance(data, list):
-        data = [
-            asdict(item)
-            if hasattr(item, "__dataclass_fields__")
-            else item
+    if isinstance(data, list):
+        return [
+            serialize(item)
             for item in data
         ]
 
+    if isinstance(data, dict):
+        return {
+            key: serialize(value)
+            for key, value in data.items()
+        }
+
+    if isinstance(data, Path):
+        return str(data)
+
+    return data
+
+
+def to_json(data: Any) -> str:
+    """
+    Convert data into formatted JSON.
+    """
+
     return json.dumps(
-        data,
+        serialize(data),
         indent=4,
         default=str,
+    )
+
+
+def write_json(
+    data: Any,
+    output: str | Path,
+) -> None:
+    """
+    Write JSON data to file.
+    """
+
+    path = Path(output)
+
+    path.write_text(
+        to_json(data),
+        encoding="utf-8",
     )
