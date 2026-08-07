@@ -1,9 +1,5 @@
 """
-CLI package for PortScout.
+Core application utilities.
 """
 
 from __future__ import annotations
-
-from .app import app
-
-__all__ = ["app"]
