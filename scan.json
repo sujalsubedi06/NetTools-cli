@@ -1,0 +1,114 @@
+[
+    {
+        "host": "127.0.0.1",
+        "port": 20,
+        "is_open": false,
+        "service": "ftp-data",
+        "response_time": 7.456399907823652e-05,
+        "scanned_at": "2026-07-25 21:57:53.135118"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 21,
+        "is_open": false,
+        "service": "ftp",
+        "response_time": 1.3009997928747907e-05,
+        "scanned_at": "2026-07-25 21:57:53.135148"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 22,
+        "is_open": false,
+        "service": "ssh",
+        "response_time": 9.051997039932758e-06,
+        "scanned_at": "2026-07-25 21:57:53.135166"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 23,
+        "is_open": false,
+        "service": "telnet",
+        "response_time": 7.719001587247476e-06,
+        "scanned_at": "2026-07-25 21:57:53.135178"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 25,
+        "is_open": false,
+        "service": "smtp",
+        "response_time": 7.850998372305185e-06,
+        "scanned_at": "2026-07-25 21:57:53.135188"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 53,
+        "is_open": false,
+        "service": "dns",
+        "response_time": 7.4460003816057e-06,
+        "scanned_at": "2026-07-25 21:57:53.135198"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 80,
+        "is_open": false,
+        "service": "http",
+        "response_time": 7.275997631950304e-06,
+        "scanned_at": "2026-07-25 21:57:53.135207"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 110,
+        "is_open": false,
+        "service": "pop3",
+        "response_time": 7.815000572009012e-06,
+        "scanned_at": "2026-07-25 21:57:53.135217"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 143,
+        "is_open": false,
+        "service": "imap",
+        "response_time": 7.234000804601237e-06,
+        "scanned_at": "2026-07-25 21:57:53.135226"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 443,
+        "is_open": false,
+        "service": "https",
+        "response_time": 7.432001439156011e-06,
+        "scanned_at": "2026-07-25 21:57:53.135236"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 3306,
+        "is_open": false,
+        "service": "mysql",
+        "response_time": 7.514001481467858e-06,
+        "scanned_at": "2026-07-25 21:57:53.135246"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 5432,
+        "is_open": true,
+        "service": "postgresql",
+        "response_time": 2.9061997338430956e-05,
+        "scanned_at": "2026-07-25 21:57:53.135277"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "is_open": true,
+        "service": "redis",
+        "response_time": 1.475700264563784e-05,
+        "scanned_at": "2026-07-25 21:57:53.135294"
+    },
+    {
+        "host": "127.0.0.1",
+        "port": 8080,
+        "is_open": false,
+        "service": "http-proxy",
+        "response_time": 1.0513002052903175e-05,
+        "scanned_at": "2026-07-25 21:57:53.135307"
+    }
+]
