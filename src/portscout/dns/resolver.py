@@ -15,8 +15,6 @@ from portscout.dns.models import DNSRecord
 class DNSResolver:
     """
     DNS lookup service.
-
-    Provides authorized DNS information discovery.
     """
 
     def __init__(
@@ -25,9 +23,6 @@ class DNSResolver:
     ) -> None:
         """
         Initialize resolver.
-
-        Args:
-            timeout: DNS query timeout.
         """
 
         self.timeout = timeout
@@ -39,13 +34,6 @@ class DNSResolver:
     ) -> list[DNSRecord]:
         """
         Query DNS records.
-
-        Args:
-            domain: Domain name.
-            record_type: DNS record type.
-
-        Returns:
-            DNS records.
         """
 
         records: list[DNSRecord] = []
@@ -73,6 +61,7 @@ class DNSResolver:
         except (
             dns.exception.DNSException,
             TimeoutError,
+            Exception,
         ):
             return []
 
@@ -83,27 +72,19 @@ class DNSResolver:
         domain: str,
     ) -> list[DNSRecord]:
         """
-        Lookup common DNS record types.
-
-        Args:
-            domain: Domain name.
-
-        Returns:
-            DNS records.
+        Lookup supported DNS records.
         """
 
         records: list[DNSRecord] = []
 
-        record_types = [
+        for record_type in (
             "A",
             "AAAA",
             "MX",
             "TXT",
             "NS",
             "CNAME",
-        ]
-
-        for record_type in record_types:
+        ):
             records.extend(
                 self.lookup(
                     domain,
@@ -113,42 +94,12 @@ class DNSResolver:
 
         return records
 
-    def reverse_lookup(
-        self,
-        address: str,
-    ) -> str | None:
-        """
-        Perform reverse DNS lookup.
-
-        Args:
-            address: IPv4 address.
-
-        Returns:
-            Hostname if available.
-        """
-
-        try:
-            hostname, _, _ = socket.gethostbyaddr(
-                address
-            )
-
-            return hostname
-
-        except socket.herror:
-            return None
-
     def lookup_basic(
         self,
         domain: str,
     ) -> list[DNSRecord]:
         """
         Lookup A and AAAA records.
-
-        Args:
-            domain: Domain name.
-
-        Returns:
-            DNS records.
         """
 
         records: list[DNSRecord] = []
@@ -165,6 +116,28 @@ class DNSResolver:
             )
 
         return records
+
+    def reverse_lookup(
+        self,
+        address: str,
+    ) -> str | None:
+        """
+        Perform reverse DNS lookup.
+        """
+
+        try:
+            hostname, _, _ = socket.gethostbyaddr(
+                address,
+            )
+
+            return hostname
+
+        except (
+            socket.herror,
+            OSError,
+            Exception,
+        ):
+            return None
 
 
 __all__ = [
