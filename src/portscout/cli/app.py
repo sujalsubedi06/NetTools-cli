@@ -10,8 +10,8 @@ from portscout import __version__
 from portscout.cli.dns import dns
 from portscout.cli.scan import scan
 from portscout.cli.web import inspect
-from portscout.core.console import console
 from portscout.cli.subdomains import subdomains
+from portscout.core.console import console
 
 
 app = typer.Typer(
@@ -29,11 +29,9 @@ app.command(name="scan")(scan)
 
 app.command(name="dns")(dns)
 
-app.command()(subdomains)
+app.command(name="subdomains")(subdomains)
 
-app.command(
-    name="web"
-)(inspect)
+app.command(name="web")(inspect)
 
 
 @app.callback(invoke_without_command=True)
