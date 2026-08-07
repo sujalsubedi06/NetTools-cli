@@ -58,9 +58,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/sujalsubedi06/nettools"
-Repository = "https://github.com/sujalsubedi06/nettools"
-Issues = "https://github.com/sujalsubedi06/nettools/issues"
+Homepage = "https://github.com/sujalsubedi06/NetTools-cli"
+Repository = "https://github.com/sujalsubedi06/NetTools-cli.git"
+Issues = "https://github.com/sujalsubedi06/NetTools-cli.git/issues"
 
 [project.scripts]
 nettools = "nettools.cli.app:app"
