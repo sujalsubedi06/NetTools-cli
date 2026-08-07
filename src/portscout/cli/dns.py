@@ -4,11 +4,15 @@ DNS CLI command.
 
 from __future__ import annotations
 
+import time
+
 import typer
+from rich.panel import Panel
 from rich.table import Table
 
 from portscout.core.console import console
 from portscout.dns import DNSResolver
+from portscout.utils.validators import validate_domain
 
 
 def dns(
@@ -29,22 +33,36 @@ def dns(
 
     resolver = DNSResolver()
 
-    if reverse:
-        hostname = resolver.reverse_lookup(
-            reverse
+    if reverse is None and not validate_domain(domain):
+        console.print(
+            "[red]Invalid domain format.[/red]"
         )
+        raise typer.Exit(code=1)
+
+    if reverse:
+        hostname = resolver.reverse_lookup(reverse)
 
         if hostname:
             console.print(
-                f"[green]{reverse}[/green] "
-                f"-> {hostname}"
+                Panel(
+                    f"[cyan]{reverse}[/cyan]\n\n"
+                    f"Hostname: [green]{hostname}[/green]",
+                    title="Reverse DNS Lookup",
+                    border_style="cyan",
+                )
             )
         else:
             console.print(
-                "[yellow]No reverse DNS record found.[/yellow]"
+                Panel(
+                    "No reverse DNS record found.",
+                    title="Reverse DNS Lookup",
+                    border_style="yellow",
+                )
             )
 
         return
+
+    start = time.perf_counter()
 
     console.print(
         f"[cyan]Querying DNS records for[/cyan] {domain}"
@@ -52,11 +70,29 @@ def dns(
 
     records = resolver.lookup_all(domain)
 
+    duration = time.perf_counter() - start
+
     if not records:
         console.print(
-            "[yellow]No DNS records found.[/yellow]"
+            Panel(
+                f"No DNS records found for {domain}",
+                title="DNS Error",
+                border_style="red",
+            )
         )
-        raise typer.Exit()
+        raise typer.Exit(code=1)
+
+    console.print(
+        Panel(
+            f"""
+Domain: {domain}
+Records Found: {len(records)}
+Query Time: {duration:.3f}s
+            """.strip(),
+            title="DNS Summary",
+            border_style="cyan",
+        )
+    )
 
     table = Table(
         title=f"DNS Records: {domain}",
@@ -73,12 +109,18 @@ def dns(
 
     table.add_column(
         "TTL",
+        justify="right",
     )
 
     for record in records:
+        value = record.value
+
+        if record.record_type == "TXT":
+            value = value[:80]
+
         table.add_row(
             record.record_type,
-            record.value,
+            value,
             (
                 str(record.ttl)
                 if record.ttl
