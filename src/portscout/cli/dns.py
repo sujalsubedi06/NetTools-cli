@@ -11,7 +11,7 @@ from rich.panel import Panel
 from rich.table import Table
 
 from portscout.core.console import console
-from portscout.core.output import to_json
+from portscout.core.output import to_json, write_json
 from portscout.dns import DNSResolver
 from portscout.utils.validators import validate_domain
 
@@ -32,6 +32,12 @@ def dns(
         "--json",
         help="Output results as JSON.",
     ),
+    output: str | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Save results to JSON file.",
+    ),
 ) -> None:
     """
     Lookup DNS records for a domain.
@@ -48,14 +54,24 @@ def dns(
     if reverse:
         hostname = resolver.reverse_lookup(reverse)
 
+        result = {
+            "ip": reverse,
+            "hostname": hostname,
+        }
+
+        if output:
+            write_json(
+                result,
+                output,
+            )
+
+            console.print(
+                f"[green]Saved JSON output:[/green] {output}"
+            )
+
         if json_output:
             console.print(
-                to_json(
-                    {
-                        "ip": reverse,
-                        "hostname": hostname,
-                    }
-                )
+                to_json(result)
             )
             raise typer.Exit()
 
@@ -98,6 +114,16 @@ def dns(
             )
         )
         raise typer.Exit(code=1)
+
+    if output:
+        write_json(
+            records,
+            output,
+        )
+
+        console.print(
+            f"[green]Saved JSON output:[/green] {output}"
+        )
 
     if json_output:
         console.print(
