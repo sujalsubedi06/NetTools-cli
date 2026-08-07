@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>PortScout Security Report</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+}
+
+h1 {
+    color: #00aaff;
+}
+
+pre {
+    background: #111;
+    color: #eee;
+    padding: 20px;
+    border-radius: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>PortScout Security Report</h1>
+
+<h2>Target</h2>
+<p>output/web.json</p>
+
+<h2>Data</h2>
+
+<pre>
+{
+    "web_info": {
+        "url": "https://example.com/",
+        "status_code": 200,
+        "response_time": 0.06486248900182545,
+        "server": "cloudflare",
+        "content_type": "text/html",
+        "title": "Example Domain",
+        "https": true,
+        "redirects": 0,
+        "security_headers": {}
+    },
+    "security": {
+        "https": true,
+        "missing_headers": [
+            "HSTS",
+            "CSP",
+            "Clickjacking Protection",
+            "MIME Protection",
+            "Referrer Policy"
+        ],
+        "score": 25
+    }
+}
+</pre>
+
+</body>
+</html>
