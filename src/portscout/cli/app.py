@@ -7,6 +7,7 @@ from __future__ import annotations
 import typer
 
 from portscout import __version__
+from portscout.cli.scan import scan
 from portscout.core.console import console
 
 app = typer.Typer(
@@ -18,6 +19,9 @@ app = typer.Typer(
     no_args_is_help=True,
     add_completion=False,
 )
+
+
+app.command(name="scan")(scan)
 
 
 @app.callback(invoke_without_command=True)
