@@ -1,0 +1,11 @@
+"""
+Rich console utilities.
+"""
+
+from __future__ import annotations
+
+from rich.console import Console
+
+console = Console()
+
+__all__ = ["console"]

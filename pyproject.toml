@@ -3,9 +3,9 @@ requires = ["hatchling>=1.27.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "portscout"
+name = "nettools-cli"
 version = "1.0.0"
-description = "A modern Python network reconnaissance toolkit."
+description = "A modern Python network reconnaissance and diagnostics toolkit."
 readme = "README.md"
 requires-python = ">=3.13"
 license = "MIT"
@@ -58,15 +58,34 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/sujalsubedi06/PortScout"
-Repository = "https://github.com/sujalsubedi06/PortScout"
-Issues = "https://github.com/sujalsubedi06/PortScout/issues"
+Homepage = "https://github.com/sujalsubedi06/nettools"
+Repository = "https://github.com/sujalsubedi06/nettools"
+Issues = "https://github.com/sujalsubedi06/nettools/issues"
 
 [project.scripts]
-portscout = "portscout.cli.app:app"
+nettools = "nettools.cli.app:app"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/portscout"]
+packages = ["src/nettools"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/nettools",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "pyproject.toml"
+]
+
+exclude = [
+    "dns.json",
+    "scan.json",
+    "results/",
+    "output/"
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

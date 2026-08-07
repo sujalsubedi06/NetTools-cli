@@ -2,7 +2,7 @@
 
 ## Our Commitment
 
-We are committed to providing a welcoming, respectful, and harassment-free experience for everyone contributing to PortScout.
+We are committed to providing a welcoming, respectful, and harassment-free experience for everyone contributing to nettools.
 
 We welcome contributions from people of all backgrounds and experience levels.
 
@@ -24,7 +24,7 @@ The following behaviors are not acceptable:
 - Personal attacks or insulting comments.
 - Publishing private information without permission.
 - Encouraging illegal or unauthorized activities.
-- Misusing PortScout for harmful purposes.
+- Misusing nettools for harmful purposes.
 
 ## Enforcement
 
@@ -34,4 +34,4 @@ Project maintainers may remove comments, reject contributions, or restrict parti
 
 If you experience unacceptable behavior, please contact the project maintainers through the repository issue tracker or security contact.
 
-Thank you for helping keep PortScout a professional and welcoming open-source project.
+Thank you for helping keep nettools a professional and welcoming open-source project.

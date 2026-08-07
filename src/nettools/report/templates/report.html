@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>nettools Technical Assessment Report</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: #f8fafc;
+            color: #1e293b;
+
+            margin: 0;
+            padding: 40px;
+        }
+
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+
+        .header {
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 12px;
+
+            border: 1px solid #e2e8f0;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .brand {
+
+            font-size: 14px;
+
+            letter-spacing: 3px;
+
+            color: #64748b;
+
+            text-transform: uppercase;
+
+        }
+
+
+        h1 {
+
+            margin: 10px 0;
+
+            font-size: 38px;
+
+            color: #0f172a;
+
+        }
+
+
+        h2 {
+
+            font-size: 22px;
+
+            color: #0f172a;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        h3 {
+
+            color: #334155;
+
+        }
+
+
+        .subtitle {
+
+            color: #64748b;
+
+            font-size: 16px;
+
+        }
+
+
+
+        .section {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 12px;
+
+            border: 1px solid #e2e8f0;
+
+            margin-bottom: 25px;
+
+        }
+
+
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(220px, 1fr)
+            );
+
+            gap: 20px;
+
+        }
+
+
+
+        .metric {
+
+            background: #f8fafc;
+
+            border-radius: 10px;
+
+            padding: 20px;
+
+            border: 1px solid #e2e8f0;
+
+        }
+
+
+
+        .metric-title {
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+        }
+
+
+
+        .metric-value {
+
+            margin-top: 10px;
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+            color: #0f172a;
+
+        }
+
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+
+
+        th {
+
+            text-align: left;
+
+            background: #f1f5f9;
+
+            color: #334155;
+
+            padding: 12px;
+
+            font-size: 14px;
+
+        }
+
+
+
+        td {
+
+            padding: 12px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+        }
+
+
+
+        .tag {
+
+            display: inline-block;
+
+            padding: 5px 12px;
+
+            border-radius: 20px;
+
+            background: #e0f2fe;
+
+            color: #0369a1;
+
+            font-size: 13px;
+
+        }
+
+
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 40px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+        }
+
+
+
+        pre {
+
+            background: #0f172a;
+
+            color: #e2e8f0;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            overflow-x: auto;
+
+            font-size: 13px;
+
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<div class="header">
+
+<div class="brand">
+nettools
+</div>
+
+
+<h1>
+Technical Assessment Report
+</h1>
+
+
+<p class="subtitle">
+Automated infrastructure and application analysis report
+</p>
+
+
+</div>
+
+
+
+
+<div class="section">
+
+
+<h2>
+Assessment Overview
+</h2>
+
+
+<div class="grid">
+
+
+<div class="metric">
+
+<div class="metric-title">
+Target
+</div>
+
+<div class="metric-value">
+{{ target }}
+</div>
+
+</div>
+
+
+
+<div class="metric">
+
+<div class="metric-title">
+Generated
+</div>
+
+<div class="metric-value">
+{{ generated_at }}
+</div>
+
+</div>
+
+
+
+<div class="metric">
+
+<div class="metric-title">
+Report Version
+</div>
+
+<div class="metric-value">
+nettools {{ version }}
+</div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="section">
+
+
+<h2>
+Application Information
+</h2>
+
+
+<table>
+
+
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+
+
+{{ web_rows }}
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+<div class="section">
+
+
+<h2>
+Configuration Findings
+</h2>
+
+
+<div class="grid">
+
+
+<div class="metric">
+
+<div class="metric-title">
+Assessment Score
+</div>
+
+<div class="metric-value">
+{{ security_score }}/100
+</div>
+
+
+</div>
+
+
+
+<div class="metric">
+
+<div class="metric-title">
+HTTPS Status
+</div>
+
+<div class="metric-value">
+
+<span class="tag">
+{{ https_status }}
+</span>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<h3>
+Observations
+</h3>
+
+
+<ul>
+
+{{ findings }}
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+<div class="section">
+
+
+<h2>
+Technical Data
+</h2>
+
+
+<pre>
+{{ raw_data }}
+</pre>
+
+
+</div>
+
+
+
+
+
+<div class="footer">
+
+Generated by nettools
+
+</div>
+
+
+
+</div>
+
+
+</body>
+
+</html>

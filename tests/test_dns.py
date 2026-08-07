@@ -6,8 +6,8 @@ from __future__ import annotations
 
 from unittest.mock import patch
 
-from portscout.dns import DNSRecord, DNSResolver
-from portscout.utils.validators import validate_domain
+from nettools.dns import DNSRecord, DNSResolver
+from nettools.utils.validators import validate_domain
 
 
 def test_dns_record_creation() -> None:
@@ -41,13 +41,9 @@ def test_domain_validation() -> None:
     Test domain validation.
     """
 
-    assert validate_domain(
-        "example.com"
-    )
+    assert validate_domain("example.com")
 
-    assert not validate_domain(
-        "hello"
-    )
+    assert not validate_domain("hello")
 
 
 def test_dns_lookup_failure() -> None:
