@@ -116,13 +116,13 @@ def dns(
         raise typer.Exit(code=1)
 
     if output:
-        write_json(
+        saved_path = write_json(
             records,
             output,
         )
 
         console.print(
-            f"[green]Saved JSON output:[/green] {output}"
+            f"[green]Saved JSON output:[/green] {saved_path}"
         )
 
     if json_output:
