@@ -7,8 +7,10 @@ from __future__ import annotations
 import typer
 
 from portscout import __version__
+from portscout.cli.dns import dns
 from portscout.cli.scan import scan
 from portscout.core.console import console
+
 
 app = typer.Typer(
     name="portscout",
@@ -22,6 +24,8 @@ app = typer.Typer(
 
 
 app.command(name="scan")(scan)
+
+app.command(name="dns")(dns)
 
 
 @app.callback(invoke_without_command=True)
