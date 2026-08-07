@@ -6,7 +6,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from portscout.web import WebClient
+from portscout.web import WebClient, analyze_security
 
 
 app = typer.Typer()
@@ -68,16 +68,37 @@ def inspect(
             value,
         )
 
-    console.print(
-        table
+    console.print(table)
+
+    report = analyze_security(
+        result.url,
+        result.security_headers,
     )
 
-    if result.security_headers:
-        console.print(
-            "\nSecurity Headers:"
-        )
+    security = Table(
+        title="Security Analysis"
+    )
 
-        for key, value in result.security_headers.items():
-            console.print(
-                f"{key}: {value}"
-            )
+    security.add_column("CHECK")
+    security.add_column("RESULT")
+
+    security.add_row(
+        "Security Score",
+        f"{report.score}/100",
+    )
+
+    security.add_row(
+        "HTTPS",
+        "Enabled" if report.https else "Disabled",
+    )
+
+    security.add_row(
+        "Missing Headers",
+        (
+            ", ".join(report.missing_headers)
+            if report.missing_headers
+            else "None"
+        ),
+    )
+
+    console.print(security)
