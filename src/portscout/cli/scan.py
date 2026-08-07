@@ -7,6 +7,13 @@ from __future__ import annotations
 import time
 
 import typer
+from rich.panel import Panel
+from rich.progress import (
+    BarColumn,
+    Progress,
+    SpinnerColumn,
+    TextColumn,
+)
 from rich.table import Table
 
 from portscout.core.console import console
@@ -69,8 +76,17 @@ def scan(
         raise typer.Exit(code=1) from exc
 
     console.print(
-        f"[cyan]Scanning[/cyan] {target} "
-        f"[dim]({resolved_target})[/dim]"
+        Panel(
+            f"""
+[cyan]Target:[/cyan] {target}
+[cyan]Resolved:[/cyan] {resolved_target}
+[cyan]Ports:[/cyan] {len(selected_ports)}
+[cyan]Workers:[/cyan] {workers}
+[cyan]Timeout:[/cyan] {timeout}s
+            """.strip(),
+            title="PortScout Scan",
+            border_style="cyan",
+        )
     )
 
     scanner = TCPScanner(
@@ -80,22 +96,43 @@ def scan(
 
     start = time.perf_counter()
 
-    try:
-        results = scanner.scan(
-            resolved_target,
-            selected_ports,
+    results = []
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn(
+            "[progress.description]{task.description}"
+        ),
+        BarColumn(),
+        console=console,
+    ) as progress:
+
+        task = progress.add_task(
+            "Scanning ports...",
+            total=len(selected_ports),
         )
 
-    except KeyboardInterrupt:
-        console.print(
-            "\n[yellow]Scan interrupted.[/yellow]"
-        )
-        raise typer.Exit(code=1)
+        for port in selected_ports:
+            result = scanner.scan_port(
+                resolved_target,
+                port,
+            )
+
+            results.append(result)
+
+            progress.update(
+                task,
+                advance=1,
+            )
 
     duration = time.perf_counter() - start
 
+    results.sort(
+        key=lambda item: item.port,
+    )
+
     table = Table(
-        title=f"Port Scan Results: {target}",
+        title="Scan Results",
     )
 
     table.add_column(
@@ -112,19 +149,17 @@ def scan(
     )
 
     table.add_column(
-        "TIME",
+        "RESPONSE",
     )
 
     for result in results:
-        status = (
-            "[green]OPEN[/green]"
-            if result.is_open
-            else "[red]CLOSED[/red]"
-        )
-
         table.add_row(
             str(result.port),
-            status,
+            (
+                "[green]OPEN[/green]"
+                if result.is_open
+                else "[red]CLOSED[/red]"
+            ),
             result.service,
             f"{result.response_time:.3f}s",
         )
@@ -138,11 +173,15 @@ def scan(
     ]
 
     console.print(
-        f"\n[green]Completed[/green] "
-        f"in {duration:.2f}s"
-    )
+        Panel(
+            f"""
+[green]Completed[/green]
 
-    console.print(
-        f"[cyan]Open ports:[/cyan] "
-        f"{len(open_ports)}/{len(results)}"
+Ports scanned: {len(results)}
+Open ports: {len(open_ports)}
+Duration: {duration:.2f}s
+            """.strip(),
+            title="Summary",
+            border_style="green",
+        )
     )
